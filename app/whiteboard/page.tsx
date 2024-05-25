@@ -2,29 +2,15 @@
 
 import StickyCard from "@/components/StickyCard";
 import React, { useCallback, useState } from "react";
-import ReactFlow, { NodeChange, applyNodeChanges, Background } from "reactflow";
+import ReactFlow, {
+  NodeChange,
+  applyNodeChanges,
+  Background,
+  OnNodesChange,
+  Node,
+} from "reactflow";
+import { initialNodes } from "@/utils/initialNodes";
 import "reactflow/dist/style.css";
-
-const initialNodes = [
-  {
-    id: "1",
-    type: "stickyNote",
-    position: {
-      x: 50,
-      y: 50,
-    },
-    data: {},
-  },
-  {
-    id: "2",
-    type: "stickyNote",
-    position: {
-      x: 100,
-      y: 100,
-    },
-    data: {},
-  },
-];
 
 let defaultX = 100;
 
@@ -35,10 +21,10 @@ const nodeTypes = {
 };
 
 const Whiteboard = () => {
-  const [nodes, setNodes] = useState(initialNodes);
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
   let add = 0;
 
-  const onNodesChange = useCallback(
+  const onNodesChange: OnNodesChange = useCallback(
     (changes: NodeChange[]) => {
       setNodes((prevNds) => applyNodeChanges(changes, prevNds));
       console.log(changes);
