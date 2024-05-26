@@ -18,8 +18,8 @@ const StickyCard = () => {
   }, [titleRef]);
 
   useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [cardRef]);
 
   return (
@@ -39,10 +39,15 @@ const StickyCard = () => {
         />
       </div>
       <div className="px-6 py-4">
-        <p className="text-lg font-medium text-gray-800 ">
+        {/* <p className="text-lg font-medium text-gray-800 ">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur corrupti repellat
-          deleniti asperiores iusto explicabo doloribus odio mollitia adipisci natus.
-        </p>
+          deleniti asperiores iusto explicabo doloribus odio mollitia adipisci natus. 
+        </p> */}
+        <textarea
+          rows={6}
+          className="w-full bg-transparent outline-none placeholder:text-gray-700"
+          placeholder="Description"
+        />
       </div>
     </div>
   );
