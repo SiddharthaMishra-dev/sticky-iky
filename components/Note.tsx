@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const StickyCard = () => {
+const Note = ({ data }: { data: any }) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const [selected, isSelected] = useState<Boolean>(false);
@@ -25,7 +25,7 @@ const StickyCard = () => {
   return (
     <div
       className={twMerge(
-        `w-[300px] bg-orange-300 rounded-xl`,
+        `w-[300px] bg-orange-200 rounded-xl`,
         selected && `ring-2 ring-orange-400`
       )}
       onClick={() => isSelected(!selected)}
@@ -34,23 +34,23 @@ const StickyCard = () => {
       <div className="border-b border-orange-200 px-6 py-4">
         <input
           ref={titleRef}
-          className="w-full bg-transparent outline-none placeholder:text-gray-700"
+          className="w-full bg-transparent outline-none placeholder:text-gray-700 placeholder:font-semibold"
           placeholder="Title"
+          value={data.title}
+          onChange={(e) => data.titleChange(e, data.id)}
         />
       </div>
       <div className="px-6 py-4">
-        {/* <p className="text-lg font-medium text-gray-800 ">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur corrupti repellat
-          deleniti asperiores iusto explicabo doloribus odio mollitia adipisci natus. 
-        </p> */}
         <textarea
           rows={6}
-          className="w-full bg-transparent outline-none placeholder:text-gray-700"
+          className="w-full bg-transparent outline-none placeholder:text-gray-800"
           placeholder="Description"
+          value={data.content}
+          onChange={(e) => data.contentChange(e, data.id)}
         />
       </div>
     </div>
   );
 };
 
-export default StickyCard;
+export default React.memo(Note);
