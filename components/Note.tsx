@@ -43,7 +43,7 @@ const Note = ({ data }: { data: any }) => {
       <div className="px-6 py-4">
         <textarea
           rows={6}
-          className="w-full bg-transparent outline-none placeholder:text-gray-800"
+          className="w-full resize-none bg-transparent outline-none placeholder:text-gray-800 focus:outline-1"
           placeholder="Description"
           value={data.content}
           onChange={(e) => data.contentChange(e, data.id)}
@@ -54,3 +54,4 @@ const Note = ({ data }: { data: any }) => {
 };
 
 export default React.memo(Note);
+``;

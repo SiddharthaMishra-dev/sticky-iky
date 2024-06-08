@@ -1,7 +1,7 @@
 "use client";
 
 import Note from "@/components/Note";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   NodeChange,
   applyNodeChanges,
@@ -23,17 +23,21 @@ const nodeTypes = {
   note: Note,
 };
 
+let saveTimeout: NodeJS.Timeout | null = null;
+
 const Whiteboard = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+  const rfInstanceRef = useRef<ReactFlowInstance | null>();
+
   let add = 0;
 
   const onSave = useCallback(() => {
-    if (rfInstance) {
-      const flow = rfInstance.toObject();
+    const instance = rfInstanceRef.current;
+    if (instance) {
+      const flow = instance.toObject();
       localStorage.setItem("flow", JSON.stringify(flow));
     }
-  }, [rfInstance]);
+  }, []);
 
   const onRestore = useCallback(() => {
     const restoreFn = async () => {
@@ -69,6 +73,14 @@ const Whiteboard = () => {
       });
       return newNodes;
     });
+
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+
+    saveTimeout = setTimeout(() => {
+      onSave();
+    }, 2000);
   };
 
   const onContentChange = (e: any, id: string) => {
@@ -146,6 +158,7 @@ const Whiteboard = () => {
   if (nodes.length === 0) {
     return <div>Loading...</div>; // Render a loading state while nodes are being set
   }
+
   return (
     <div className="w-screen h-screen px-3 py-5">
       <div className="w-[99%] h-[95%] ring-2 ring-orange-400 overflow-hidden rounded-lg mx-auto">
@@ -153,7 +166,7 @@ const Whiteboard = () => {
           nodes={nodes}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
-          onInit={setRfInstance}
+          onInit={(instance) => (rfInstanceRef.current = instance)}
           className="relative"
         >
           <Background />
