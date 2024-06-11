@@ -1,9 +1,19 @@
 "use client";
 
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const Note = ({ data }: { data: any }) => {
+type Props = {
+  data: {
+    id: string;
+    titleChange: (e: any, id: string) => void;
+    contentChange: (e: any, id: string) => void;
+    title: string;
+    content: string;
+  };
+};
+
+const Note = ({ data }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const [selected, isSelected] = useState<Boolean>(false);
@@ -54,4 +64,3 @@ const Note = ({ data }: { data: any }) => {
 };
 
 export default React.memo(Note);
-``;

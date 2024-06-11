@@ -1,29 +1,20 @@
 "use client";
 
-import Note from "@/components/Note";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import ReactFlow, {
-  NodeChange,
-  applyNodeChanges,
-  Background,
-  OnNodesChange,
-  Node,
-  Controls,
-  ReactFlowInstance,
-  useNodesState,
-} from "reactflow";
-import "reactflow/dist/style.css";
 import { Plus } from "lucide-react";
+import { useCallback, useEffect, useRef } from "react";
+import ReactFlow, { Background, Controls, Node, ReactFlowInstance, useNodesState } from "reactflow";
 
+import Note from "@/components/Note";
+
+import "reactflow/dist/style.css";
+
+let saveTimeout: NodeJS.Timeout | null = null;
 let defaultX = 100;
-
 let defaultY = 100;
 
 const nodeTypes = {
   note: Note,
 };
-
-let saveTimeout: NodeJS.Timeout | null = null;
 
 const Whiteboard = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -97,6 +88,13 @@ const Whiteboard = () => {
       });
       return newNodes;
     });
+
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+    saveTimeout = setTimeout(() => {
+      onSave();
+    }, 2000);
   };
 
   const handleAddNode = () => {
@@ -121,38 +119,59 @@ const Whiteboard = () => {
   };
 
   useEffect(() => {
-    setNodes([
-      {
-        id: "1",
-        type: "note",
-        position: {
-          x: 50,
-          y: 50,
-        },
-        data: {
+    const rawVal = localStorage.getItem("flow");
+    if (rawVal === null) {
+      setNodes([
+        {
           id: "1",
-          titleChange: onTitleChange,
-          contentChange: onContentChange,
-          title: "",
-          content: "This is note 1",
+          type: "note",
+          position: {
+            x: 50,
+            y: 50,
+          },
+          data: {
+            id: "1",
+            titleChange: onTitleChange,
+            contentChange: onContentChange,
+            title: "",
+            content: "This is note 1",
+          },
         },
-      },
-      {
-        id: "2",
-        type: "note",
-        position: {
-          x: 100,
-          y: 100,
-        },
-        data: {
+        {
           id: "2",
-          titleChange: onTitleChange,
-          contentChange: onContentChange,
-          title: "",
-          content: "This is note 2",
+          type: "note",
+          position: {
+            x: 100,
+            y: 100,
+          },
+          data: {
+            id: "2",
+            titleChange: onTitleChange,
+            contentChange: onContentChange,
+            title: "",
+            content: "This is note 2",
+          },
         },
-      },
-    ]);
+      ]);
+    } else {
+      const restoreFn = async () => {
+        const rawFlow = await JSON.parse(rawVal || "{}");
+        const newFlow = rawFlow.nodes.map((node: Node) => {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              titleChange: onTitleChange,
+              contentChange: onContentChange,
+            },
+          };
+        });
+        if (newFlow) {
+          setNodes(newFlow || []);
+        }
+      };
+      restoreFn();
+    }
   }, []);
 
   if (nodes.length === 0) {
@@ -176,22 +195,6 @@ const Whiteboard = () => {
             onMouseDown={handleAddNode}
           >
             Add
-            <Plus className="h-5 w-5 " />
-          </button>
-
-          <button
-            className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-2 rounded-md top-4 left-[200px] z-10 flex justify-center items-center gap-x-3"
-            onMouseDown={onSave}
-          >
-            Save
-            <Plus className="h-5 w-5 " />
-          </button>
-
-          <button
-            className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-2 rounded-md top-4 left-[400px] z-10 flex justify-center items-center gap-x-3"
-            onMouseDown={onRestore}
-          >
-            Reload
             <Plus className="h-5 w-5 " />
           </button>
         </ReactFlow>
