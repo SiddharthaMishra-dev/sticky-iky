@@ -8,6 +8,19 @@ import Note from "@/components/Note";
 
 import "reactflow/dist/style.css";
 
+const COLOR = [
+  "#fed7aa",
+  "#fde68a",
+  "#bbf7d0",
+  "#bfdbfe",
+  "#fecaca",
+  "#e9d5ff",
+  "#c7d2fe",
+  "#fbcfe8",
+  "#a5f3fc",
+  "#fde68a",
+];
+
 let saveTimeout: NodeJS.Timeout | null = null;
 let defaultX = 100;
 let defaultY = 100;
@@ -108,10 +121,12 @@ const Whiteboard = () => {
           y: (defaultY += add),
         },
         data: {
+          id: String(nds.length + 1),
           titleChange: onTitleChange,
           contentChange: onContentChange,
           title: `Note ${nds.length + 1}`,
           content: `This is note ${nds.length + 1}`,
+          color: COLOR[Math.floor(Math.random() * COLOR.length)],
         },
       },
     ]);
@@ -135,6 +150,7 @@ const Whiteboard = () => {
             contentChange: onContentChange,
             title: "",
             content: "This is note 1",
+            color: COLOR[Math.floor(Math.random() * COLOR.length)],
           },
         },
         {
@@ -150,6 +166,7 @@ const Whiteboard = () => {
             contentChange: onContentChange,
             title: "",
             content: "This is note 2",
+            color: COLOR[Math.floor(Math.random() * COLOR.length)],
           },
         },
       ]);
