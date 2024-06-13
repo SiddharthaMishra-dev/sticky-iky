@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { StickyNote } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 import ReactFlow, { Background, Controls, Node, ReactFlowInstance, useNodesState } from "reactflow";
 
@@ -51,6 +51,7 @@ const Whiteboard = () => {
           ...node,
           data: {
             ...node.data,
+            date: new Date(node.data.date),
             titleChange: onTitleChange,
             contentChange: onContentChange,
           },
@@ -124,9 +125,10 @@ const Whiteboard = () => {
           id: String(nds.length + 1),
           titleChange: onTitleChange,
           contentChange: onContentChange,
-          title: `Note ${nds.length + 1}`,
-          content: `This is note ${nds.length + 1}`,
+          title: "",
+          content: "",
           color: COLOR[Math.floor(Math.random() * COLOR.length)],
+          date: new Date(),
         },
       },
     ]);
@@ -149,8 +151,9 @@ const Whiteboard = () => {
             titleChange: onTitleChange,
             contentChange: onContentChange,
             title: "",
-            content: "This is note 1",
+            content: "",
             color: COLOR[Math.floor(Math.random() * COLOR.length)],
+            date: new Date(),
           },
         },
         {
@@ -165,29 +168,14 @@ const Whiteboard = () => {
             titleChange: onTitleChange,
             contentChange: onContentChange,
             title: "",
-            content: "This is note 2",
+            content: "",
             color: COLOR[Math.floor(Math.random() * COLOR.length)],
+            date: new Date(),
           },
         },
       ]);
     } else {
-      const restoreFn = async () => {
-        const rawFlow = await JSON.parse(rawVal || "{}");
-        const newFlow = rawFlow.nodes.map((node: Node) => {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              titleChange: onTitleChange,
-              contentChange: onContentChange,
-            },
-          };
-        });
-        if (newFlow) {
-          setNodes(newFlow || []);
-        }
-      };
-      restoreFn();
+      onRestore();
     }
   }, []);
 
@@ -208,11 +196,10 @@ const Whiteboard = () => {
           <Background />
           <Controls />
           <button
-            className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-2 rounded-md top-4 left-4 z-10 flex justify-center items-center gap-x-3"
+            className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-3 rounded-full top-4 left-4 z-10 flex justify-center items-center gap-x-3"
             onMouseDown={handleAddNode}
           >
-            Add
-            <Plus className="h-5 w-5 " />
+            <StickyNote className="h-5 w-5 " />
           </button>
         </ReactFlow>
       </div>

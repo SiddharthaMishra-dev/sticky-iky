@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import React, { useEffect, useRef } from "react";
 
 type Props = {
   data: {
@@ -11,13 +10,13 @@ type Props = {
     title: string;
     content: string;
     color: string;
+    date: Date;
   };
 };
 
 const Note = ({ data }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     titleRef?.current?.focus();
   }, [titleRef]);
@@ -47,6 +46,7 @@ const Note = ({ data }: Props) => {
           onChange={(e) => data.contentChange(e, data.id)}
         />
       </div>
+      <div className="px-6 py-4 flex justify-end items-center">{data.date.toDateString()}</div>
     </div>
   );
 };
