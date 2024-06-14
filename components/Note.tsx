@@ -1,10 +1,12 @@
 "use client";
 
+import { Trash } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 
 type Props = {
   data: {
     id: string;
+    deleteNode: (id: string) => void;
     titleChange: (e: any, id: string) => void;
     contentChange: (e: any, id: string) => void;
     title: string;
@@ -23,7 +25,7 @@ const Note = ({ data }: Props) => {
 
   return (
     <div
-      className={`w-[300px] rounded-xl`}
+      className={`w-[300px] rounded-xl group`}
       style={{ backgroundColor: data.color }}
       onClick={() => {}}
       ref={cardRef}
@@ -46,7 +48,12 @@ const Note = ({ data }: Props) => {
           onChange={(e) => data.contentChange(e, data.id)}
         />
       </div>
-      <div className="px-6 py-4 flex justify-end items-center">{data.date.toDateString()}</div>
+      <div className="px-6 py-4 flex justify-between items-center">
+        <button onClick={() => data.deleteNode(data.id)}>
+          <Trash className="text-gray-500 opacity-0 group-hover:opacity-100 bg-white/40 transition p-1  rounded-full " />
+        </button>
+        <span>{data.date.toDateString()}</span>
+      </div>
     </div>
   );
 };

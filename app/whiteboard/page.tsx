@@ -53,6 +53,7 @@ const Whiteboard = () => {
             ...node.data,
             date: new Date(node.data.date),
             titleChange: onTitleChange,
+            deleteNode: handleDeleteNode,
             contentChange: onContentChange,
           },
         };
@@ -111,6 +112,16 @@ const Whiteboard = () => {
     }, 2000);
   };
 
+  const handleDeleteNode = (id: string) => {
+    setNodes((nds) => nds.filter((node) => node.id !== id));
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+    saveTimeout = setTimeout(() => {
+      onSave();
+    }, 2000);
+  };
+
   const handleAddNode = () => {
     setNodes((nds) => [
       ...nds,
@@ -125,6 +136,7 @@ const Whiteboard = () => {
           id: String(nds.length + 1),
           titleChange: onTitleChange,
           contentChange: onContentChange,
+          deleteNode: handleDeleteNode,
           title: "",
           content: "",
           color: COLOR[Math.floor(Math.random() * COLOR.length)],
@@ -148,6 +160,7 @@ const Whiteboard = () => {
           },
           data: {
             id: "1",
+            deleteNode: handleDeleteNode,
             titleChange: onTitleChange,
             contentChange: onContentChange,
             title: "",
@@ -165,6 +178,7 @@ const Whiteboard = () => {
           },
           data: {
             id: "2",
+            deleteNode: handleDeleteNode,
             titleChange: onTitleChange,
             contentChange: onContentChange,
             title: "",
@@ -179,9 +193,9 @@ const Whiteboard = () => {
     }
   }, []);
 
-  if (nodes.length === 0) {
-    return <div>Loading...</div>; // Render a loading state while nodes are being set
-  }
+  // if (nodes.length === 0) {
+  //   return <div>Loading...</div>; // Render a loading state while nodes are being set
+  // }
 
   return (
     <div className="w-screen h-screen px-3 py-5">
