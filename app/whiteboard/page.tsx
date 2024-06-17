@@ -193,13 +193,9 @@ const Whiteboard = () => {
     }
   }, []);
 
-  // if (nodes.length === 0) {
-  //   return <div>Loading...</div>; // Render a loading state while nodes are being set
-  // }
-
   return (
     <div className="w-screen h-screen px-3 py-5">
-      <div className="w-[99%] h-[95%] ring-2 ring-orange-400 overflow-hidden rounded-lg mx-auto">
+      <div className="w-[99%] h-[100%] ring-2 ring-orange-400 overflow-hidden rounded-lg mx-auto">
         <ReactFlow
           nodes={nodes}
           nodeTypes={nodeTypes}
