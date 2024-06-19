@@ -203,7 +203,7 @@ const Whiteboard = () => {
           onInit={(instance) => (rfInstanceRef.current = instance)}
           className="relative"
         >
-          <Background />
+          {/* <Background /> */}
           <Controls />
           <button
             className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-3 rounded-full top-4 left-4 z-10 flex justify-center items-center gap-x-3"

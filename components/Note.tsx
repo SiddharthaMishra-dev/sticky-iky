@@ -46,9 +46,12 @@ const Note = (props: NodeProps<Props>) => {
           onChange={(e) => props.data.contentChange(e, props.data.id)}
         />
       </div>
-      <div className="px-6 py-4 flex justify-between items-center">
-        <button onClick={() => props.data.deleteNode(props.data.id)}>
-          <Trash className="text-gray-500 opacity-0 group-hover:opacity-100 bg-white/40 transition p-1  rounded-full " />
+      <div className="p-4 flex justify-between items-center">
+        <button
+          onClick={() => props.data.deleteNode(props.data.id)}
+          className="backdrop-brightness-90 px-2 py-2 rounded-full"
+        >
+          <Trash className="w-5 h-5 " />
         </button>
         <span>{props.data.date.toDateString()}</span>
       </div>
