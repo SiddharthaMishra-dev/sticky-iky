@@ -6,7 +6,9 @@ const kalam = Kalam({ weight: ["300", "400", "700"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "sticky-iky",
-  description: "just another note taking app",
+  description: "stick notes in style",
+  authors: [{ name: "Sid", url: "https://sidme.tech/" }],
+  creator: "Sid",
 };
 
 export default function RootLayout({
