@@ -2,14 +2,14 @@
 
 import { Trash } from "lucide-react";
 
-import React, { useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import { NodeProps } from "reactflow";
 
 type Props = {
   id: string;
   deleteNode: (id: string) => void;
-  titleChange: (e: any, id: string) => void;
-  contentChange: (e: any, id: string) => void;
+  titleChange: (e: ChangeEvent<HTMLInputElement>, id: string) => void;
+  contentChange: (e: ChangeEvent<HTMLTextAreaElement>, id: string) => void;
   title: string;
   content: string;
   color: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { StickyNote } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import ReactFlow, { Background, Controls, Node, ReactFlowInstance, useNodesState } from "reactflow";
 
 import Note from "@/components/Note";
@@ -65,7 +65,7 @@ const Whiteboard = () => {
     restoreFn();
   }, [setNodes]);
 
-  const onTitleChange = (e: any, id: string) => {
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>, id: string) => {
     setNodes((nds) => {
       const newNodes = nds.map((node) => {
         if (node.id !== id) return node;
@@ -89,7 +89,7 @@ const Whiteboard = () => {
     }, 2000);
   };
 
-  const onContentChange = (e: any, id: string) => {
+  const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>, id: string) => {
     setNodes((nds) => {
       const newNodes = nds.map((node) => {
         if (node.id !== id) return node;
