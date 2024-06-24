@@ -2,24 +2,20 @@
 
 import { StickyNote } from "lucide-react";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import ReactFlow, { Background, Controls, Node, ReactFlowInstance, useNodesState } from "reactflow";
 
 import Note from "@/components/Note";
+import { COLOR } from "@/lib/utils";
 
 import "reactflow/dist/style.css";
-
-const COLOR = [
-  "#fed7aa",
-  "#fde68a",
-  "#bbf7d0",
-  "#bfdbfe",
-  "#fecaca",
-  "#e9d5ff",
-  "#c7d2fe",
-  "#fbcfe8",
-  "#a5f3fc",
-  "#fde68a",
-];
 
 let saveTimeout: NodeJS.Timeout | null = null;
 let defaultX = 100;
@@ -122,7 +118,7 @@ const Whiteboard = () => {
     }, 2000);
   };
 
-  const handleAddNode = () => {
+  const handleAddNode = (color: string) => {
     setNodes((nds) => [
       ...nds,
       {
@@ -139,7 +135,7 @@ const Whiteboard = () => {
           deleteNode: handleDeleteNode,
           title: "",
           content: "",
-          color: COLOR[Math.floor(Math.random() * COLOR.length)],
+          color: color,
           date: new Date(),
         },
       },
@@ -205,12 +201,32 @@ const Whiteboard = () => {
         >
           {/* <Background /> */}
           <Controls />
-          <button
-            className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-3 rounded-full top-4 left-4 z-10 flex justify-center items-center gap-x-3"
-            onMouseDown={handleAddNode}
-          >
-            <StickyNote className="h-5 w-5 " />
-          </button>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-3 rounded-full top-4 left-4 z-10 flex justify-center items-center gap-x-3">
+              <StickyNote className="h-5 w-5 " />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-10"
+              sideOffset={5}
+            >
+              <DropdownMenuLabel></DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {COLOR.map((color) => {
+                return (
+                  <DropdownMenuItem
+                    key={color}
+                    className="justify-center"
+                    onMouseDown={() => handleAddNode(color)}
+                  >
+                    <div
+                      className={`h-6 w-6 rounded-full `}
+                      style={{ background: color }}
+                    />
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </ReactFlow>
       </div>
     </div>

@@ -9,7 +9,7 @@ export default function Home() {
             Sticky iky
           </h1>
           <h4 className="text-4xl text-gray-200 font-semibold mt-5">
-            Your personal clipboard for managing and organizing your life and work.
+            Your personal sticky note manager.
           </h4>
           <a href="/whiteboard">
             <button className="bg-[#FF0000] text-gray-200 text-4xl mt-7 px-7 py-3 rounded-md font-semibold w-fit hover:opacity-90 transition">
