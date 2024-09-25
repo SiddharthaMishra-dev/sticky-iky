@@ -205,10 +205,7 @@ const Whiteboard = () => {
             <DropdownMenuTrigger className="absolute bg-orange-400 hover:bg-orange-500 transition px-3 py-3 rounded-full top-4 left-4 z-10 flex justify-center items-center gap-x-3">
               <StickyNote className="h-5 w-5 " />
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-10"
-              sideOffset={5}
-            >
+            <DropdownMenuContent sideOffset={5}>
               <DropdownMenuLabel></DropdownMenuLabel>
               <DropdownMenuSeparator />
               {COLOR.map((color) => {
