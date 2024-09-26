@@ -1,6 +1,8 @@
 {
   "name": "sticky-iky",
   "short_name": "sticky-iky",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
