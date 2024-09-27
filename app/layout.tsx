@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Kalam } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const kalam = Kalam({ weight: ["300", "400", "700"], subsets: ["latin"] });
@@ -27,7 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={kalam.className}>{children}</body>
+      <body className={kalam.className}>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
